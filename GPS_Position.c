@@ -6,7 +6,7 @@
 int num_users;
 
 struct user_t {
-  char name[256];
+  char name[1024];
   double longitude;
   double latitude;
   double altitude;
@@ -42,7 +42,7 @@ int scan_users(char *name1, double nanosec, double lati, double longi,
 }
 
 int data_collection(char *filename) {
-  char name[256];
+  char name[1024];
   double nanosec;
   double lati;
   double longi;
@@ -106,7 +106,7 @@ int find_closest(int num_users){
 }
 
 int main(void) {
-  char filename[256];
+  char filename[1024];
   printf("Enter a filename: ");
   scanf("%s", &filename);
 
