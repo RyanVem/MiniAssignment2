@@ -53,7 +53,6 @@ int data_collection(char *filename) {
   read_file = fopen(filename, "r");
 
   if (read_file == NULL) {
-    printf("Error opening file.\n");
     return 1;
   }
 
@@ -107,6 +106,8 @@ int find_closest(int num_users){
 
 int main(void) {
   char filename[1024];
+
+  printf("\nWelcome to GPS Positioning Software!\n");
   printf("Enter a filename: ");
   scanf("%s", &filename);
 
@@ -116,8 +117,16 @@ int main(void) {
   int index = find_closest(num_users);
   //printf("%s\n", arr_dist[5].name);
   //printf("%lf\n", arr_dist[5].dist);
+
+  if (data_collection(filename) == 1){
+    printf("\nError opening file!\n");
+    printf("Please try again, thank you!\n");
+  }
+
+  else{
+    printf("\nThe name of the closest user is %s.\n", arr_dist[index].name);
+    printf("The location of %s is:\n{%lf Latitude, %lf Longitude, %lf Altitude}\n", arr_dist[index].name, other_users[index].latitude, other_users[index].longitude, other_users[index].altitude);
+  }
   
-  printf("The name of the closest user is %s.\n", arr_dist[index].name);
-  printf("The location of %s is:\n{%lf Latitude, %lf Longitude, %lf Altitude}.\n", arr_dist[index].name, other_users[index].latitude, other_users[index].longitude, other_users[index].altitude);
 
 }
