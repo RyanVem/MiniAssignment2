@@ -3,20 +3,22 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define MAX 1024
+
 int num_users;
 
 struct user_t {
-  char name[1024];
+  char name[MAX];
   double longitude;
   double latitude;
   double altitude;
   double time;
-} our_user, other_users[1024];
+} our_user, other_users[MAX];
 
 struct distance{
-    char name[1024];
+    char name[MAX];
     double dist;
-}arr_dist[1024];
+}arr_dist[MAX];
 
 
 int scan_users(char *name1, double nanosec, double lati, double longi,
@@ -42,7 +44,7 @@ int scan_users(char *name1, double nanosec, double lati, double longi,
 }
 
 int data_collection(char *filename) {
-  char name[1024];
+  char name[MAX];
   double nanosec;
   double lati;
   double longi;
@@ -82,7 +84,10 @@ int data_collection(char *filename) {
 
 int distance(int num_users){
   for(int i = 0; i < num_users; i++){
-    double calc_dist = sqrt( ( (our_user.latitude - other_users[i].latitude)*(our_user.latitude - other_users[i].latitude) ) + ( (our_user.longitude - other_users[i].longitude)*(our_user.longitude - other_users[i].longitude) ) + ( (our_user.altitude - other_users[i].altitude)*(our_user.altitude - other_users[i].altitude) ) );
+
+    double calc_dist = sqrt( ( (our_user.latitude - other_users[i].latitude)*(our_user.latitude - other_users[i].latitude) ) 
+    + ( (our_user.longitude - other_users[i].longitude)*(our_user.longitude - other_users[i].longitude) ) 
+    + ( (our_user.altitude - other_users[i].altitude)*(our_user.altitude - other_users[i].altitude) ) );
 
     strcpy(arr_dist[i].name, other_users[i].name);
     arr_dist[i].dist = calc_dist;
@@ -105,7 +110,7 @@ int find_closest(int num_users){
 }
 
 int main(void) {
-  char filename[1024];
+  char filename[MAX];
 
   printf("\nWelcome to GPS Positioning Software!\n");
   printf("Enter a filename: ");
@@ -115,8 +120,6 @@ int main(void) {
   distance(num_users);
   
   int index = find_closest(num_users);
-  //printf("%s\n", arr_dist[5].name);
-  //printf("%lf\n", arr_dist[5].dist);
 
   if (data_collection(filename) == 1){
     printf("\nError opening file!\n");
